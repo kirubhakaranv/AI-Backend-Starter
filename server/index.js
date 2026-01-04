@@ -3,6 +3,7 @@ const cors=require('cors');
 const bodyParser=require('body-parser');
 const dotenv=require('dotenv');
 const OpenAI = require("openai");
+const connectDB=require('./db/connectDB');
 
 dotenv.config();
 
@@ -26,5 +27,6 @@ const port=process.env.port || 3000;
 const charroutes=require('./routes/chatRoutes');
 app.use("/",charroutes)
 app.listen(port,()=>{
+    connectDB();
     console.log(`Server is running on port ${port}`);
 })
