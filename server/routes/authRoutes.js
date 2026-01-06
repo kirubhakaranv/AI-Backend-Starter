@@ -1,8 +1,9 @@
 const express=require('express');
 const Router=express.Router();
-const {signup,login,verifyemail,logout,forgotpassword}=require('../Controllers/authcontrollers');
+const verifyToken=require('../middleware/verifyToken')
+const {signup,login,verifyemail,logout,forgotpassword,checkAuth}=require('../Controllers/authcontrollers');
 
-
+Router.get("/check-auth",verifyToken,checkAuth);
 Router.post("/signup",signup)
 Router.post("/login",login)
 Router.post("/verify-email",verifyemail)

@@ -4,7 +4,7 @@ const bodyParser=require('body-parser');
 const dotenv=require('dotenv');
 const OpenAI = require("openai");
 const connectDB=require('./db/connectDB');
-
+const cookieParser=require('cookie-parser');
 
 dotenv.config();
 
@@ -16,13 +16,14 @@ dotenv.config();
 // const response = openai.responses.create({
 //   model: "gpt-5-nano",
 //   input: "write a haiku about ai",
-//   store: true,
+//   store: true, 
 // });
 
 // response.then((result) => console.log(result.output_text));
 const app=express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 const port=process.env.port || 3000;
 //const charroutes=require('./routes/chatRoutes');

@@ -189,4 +189,26 @@ const resetPassword=async (req,res)=>{
     }
 }
 
-module.exports={signup,login,verifyemail,logout,forgotpassword};
+const checkAuth=async (req,res)=>{
+    try{
+        const user=await User.findById(req.userId).select("-password");
+        if(!user){
+            return  res.status(400).json({
+                success:false,
+                message:"User not found"
+            });
+        }
+        res.status(200).json({
+            success:true,
+            user
+        });
+    }catch(error){
+        console.log("Error in check Auth")
+        res.status(500).json({
+            success:false,
+            message:error.message
+        })
+    }
+}
+
+module.exports={signup,login,verifyemail,logout,forgotpassword,checkAuth};
