@@ -94,4 +94,43 @@ const PASSWORD_RESET_REQUEST_TEMPLATE = `
 </html>
 `;
 
-module.exports={VERIFICATION_EMAIL_TEMPLATE,PASSWORD_RESET_REQUEST_TEMPLATE,PASSWORD_RESET_SUCCESS_TEMPLATE};
+const welcomeEmail=`
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Fixly Company</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin:0; padding:0;">
+  <table align="center" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px; margin:auto; background-color:#ffffff; border-radius:5px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+    <tr>
+      <td style="background: linear-gradient(to right, #4CAF50, #45a049); padding: 20px; text-align:center;">
+        <h1 style="color:#fff; margin:0;">Welcome to Fixly Company!</h1>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 30px;">
+        <p style="font-size:16px; color:#333;">Hello,</p>
+        <p style="font-size:16px; color:#333;">We’re excited to have you on board! Your email has been successfully verified.</p>
+        <p style="font-size:16px; color:#333;">Here’s what you can do next:</p>
+        <ul style="font-size:16px; color:#333; padding-left:20px;">
+          <li>Explore our services and offerings</li>
+          <li>Set up your profile</li>
+          <li>Connect with our community</li>
+        </ul>
+        <p style="font-size:16px; color:#333;">If you have any questions, feel free to reply to this email. We’re here to help!</p>
+        <p style="font-size:16px; color:#333;">Cheers,<br><strong>Fixly Company Team</strong></p>
+      </td>
+    </tr>
+    <tr>
+      <td style="background-color:#f9f9f9; padding:15px; text-align:center; color:#888; font-size:12px;">
+        <p>This is an automated message. Please do not reply directly.</p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+`;
+
+module.exports={VERIFICATION_EMAIL_TEMPLATE,PASSWORD_RESET_REQUEST_TEMPLATE,PASSWORD_RESET_SUCCESS_TEMPLATE,welcomeEmail};
