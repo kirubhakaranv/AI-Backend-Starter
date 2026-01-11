@@ -26,16 +26,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 const port=process.env.port || 3000;
-app.use((req, res, next) => {
- res.setHeader(
-  "Content-Security-Policy",
-  "default-src 'self'; \
-   font-src 'self' https://fonts.gstatic.com; \
-   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; \
-   script-src 'self' 'unsafe-inline' 'unsafe-eval';"
-);
-  next();
-});
+
 //const charroutes=require('./routes/chatRoutes');
 const authRoutes=require('./routes/authRoutes');
 // app.use("/",charroutes)
