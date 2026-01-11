@@ -1,6 +1,10 @@
 import {create} from 'zustand'
 import axios from 'axios';
-const API_URL="http://localhost:3000/auth";
+const API_URL =
+  window.location.hostname === "localhost"
+    ? "http://localhost:3000/auth"
+    : "https://ai-backend-starter.onrender.com/auth";
+
 axios.defaults.withCredentials=true;
 export const useAuthStore=create((set)=>({
     user:null,
