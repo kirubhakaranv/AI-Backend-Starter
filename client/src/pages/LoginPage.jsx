@@ -3,12 +3,24 @@ import { motion } from 'framer-motion';
 import {Mail,Lock,Loader} from "lucide-react";
 import {Link} from 'react-router-dom';
 import Input from '../components/Input.jsx';
+import { useAuthStore } from '../store/authStore.js';
+import { useNavigate } from 'react-router-dom';
+
 const LoginPage=()=>{
+    const{login,error,isLoading}=useAuthStore();
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
+    const navigate=useNavigate();
 
-    const handleLogin=(e)=>{
+
+    const handleLogin=async (e)=>{
         e.preventDefault();
+        try{
+         await login(email,password);
+         navigate("/");
+        }catch(error){
+
+        }
         }
     
  return(
@@ -23,7 +35,7 @@ const LoginPage=()=>{
                Welcome Back!
             </h2>
 
-            <form>
+            <form onSubmit={handleLogin}>
                   <Input
                  icon={Mail}
                  type='email'
@@ -38,8 +50,33 @@ const LoginPage=()=>{
                  value={password}
                  onChange= {(e)=>setPassword(e.target.value)}
                  />
+
+                 <div className='flex items-center mb-6'>
+                    <Link to='/forgot-password' className='text-sm text-green-400 hover:underline'>
+                    Forgot password?
+                    </Link>
+                 </div>
+                 {error && <p className='text-red-500 font-semibold text-sm mb-2'>{error}</p>}
+                     <motion.button
+						className='mt-5 w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white 
+						font-bold rounded-lg shadow-lg hover:from-green-600
+						hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2
+						 focus:ring-offset-gray-900 transition duration-200'
+						whileHover={{ scale: 1.02 }}
+						whileTap={{ scale: 0.98 }}
+						type='submit'
+					>Login</motion.button>
                 </form>
+                
                 </div>
+                 <div className='px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center'>
+                <p className='text-sm text-gray-400'>
+                    Don't have an account?{" "}
+                    <Link to={"/signup"}
+                    className='text-green-400 hover:underline'>
+                        Sign Up</Link>
+                </p>
+            </div>
     </motion.div>
 
  )

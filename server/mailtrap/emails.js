@@ -1,14 +1,13 @@
-const {mailtrapclient,sender}=require('../mailtrap/mailtrap.config');
+const {transporter,sender}=require('../mailtrap/mailer.config');
 const {VERIFICATION_EMAIL_TEMPLATE,welcomeEmail,PASSWORD_RESET_REQUEST_TEMPLATE,PASSWORD_RESET_SUCCESS_TEMPLATE}=require('./emailTemplates')
 const sendVerificationEmail=async(email,verificationToken)=>{
-    const recipient=[{email}];
     try{
-        const response=await mailtrapclient.send({
-            from:sender,
-            to:recipient,
+        const response=await transporter.sendMail({
+            from:`"${sender.name}" <${sender.email}>`,
+            to:email,
             subject:"Verify your email",
             html:VERIFICATION_EMAIL_TEMPLATE.replace('{verificationCode}',verificationToken),
-            category:"Email verification"
+       
         })
          console.log("Email sent successfully",response);
    }catch(err)
@@ -17,11 +16,10 @@ const sendVerificationEmail=async(email,verificationToken)=>{
 }    }
 
 const sendWelcomeEmail=async(email,name)=>{
-    const recipient=[{email}];
     try{
-        const response=await mailtrapclient.send({
-        from:sender,
-        to:recipient,
+        const response=await transporter.sendMail({
+        from:`"${sender.name}" <${sender.email}>`,
+        to:email,
         html:welcomeEmail,
         subject:"Welcome to Fixly Company!",
     })
@@ -34,29 +32,28 @@ const sendWelcomeEmail=async(email,name)=>{
 }
 
 const sendPasswordresetemail=async(email,resetURL)=>{
-    const recipient=[{email}];
     try{
-        const respone=await mailtrapclient.send({
-            from:sender,
-            to:recipient,
+        const respone=await transporter.sendMail({
+            from:`"${sender.name}" <${sender.email}>`,
+            to:email,
             subject:"Reset Your Password",
             html:PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}",resetURL)
         })
       
     }catch(error){
+        console.error(error.message);
         console.log("Error sendind pass reset mail");
     }
 }
 
 const sendResetSuccessEmail=async(email)=>{
-        const recipient=[{email}];
+       
         try{
-            const response=await mailtrapclient.send({
-                from:sender,
-                to:recipient,
+            const response=await transporter.sendMail({
+                from:`"${sender.name}" <${sender.email}>`,
+                to:email,
                 subject:'Password reset Successfull',
-                html:PASSWORD_RESET_SUCCESS_TEMPLATE,
-                category:"Password Reset"
+                html:PASSWORD_RESET_SUCCESS_TEMPLATE
             });
             console.log("Password reset was successfull",response);
         }catch(err){

@@ -107,6 +107,11 @@ const verifyemail=async(req,res)=>{
         await sendWelcomeEmail(user.email,user.name);
         res.status(200).json({
             success:true,
+             user: {
+                    email: user.email,
+                    name: user.name,
+                    isverified: user.isverified
+                    },
             message:"Email verified successfully"
         })
     }catch(error){
@@ -140,7 +145,7 @@ const forgotpassword=async(req,res)=>{
         user.resetPasswordToken=resetToken;
         user.resetPasswordExpiresAt=resetTokenExpiresAt;
         await user.save();
-        await sendPasswordresetemail(user.email,`${process.env.CLIENT_URL}/resetpassword/${resetToken}`)
+        await sendPasswordresetemail(user.email,`${process.env.CLIENT_URL}/reset-password/${resetToken}`)
         res.status(200).json({
             success:true,
             message:"reset password mail sent"
@@ -148,7 +153,7 @@ const forgotpassword=async(req,res)=>{
     }catch(error){
         res.status(400).json({
             success:false,
-            message:"reset password mail can't be sent"
+            message:error.message || "reset password mail can't be sent"
         })
     }
 }
@@ -176,7 +181,7 @@ const resetPassword=async (req,res)=>{
             user.resetPasswordExpiresAt=undefined;
             await user.save();
 
-            sendResetSuccessEmail(user.email);
+            await sendResetSuccessEmail(user.email);
             res.status(200).json({
                 success:true,
                 message:"Password reset successfull"
@@ -211,4 +216,4 @@ const checkAuth=async (req,res)=>{
     }
 }
 
-module.exports={signup,login,verifyemail,logout,forgotpassword,checkAuth};
+module.exports={signup,login,verifyemail,logout,forgotpassword,checkAuth,resetPassword};

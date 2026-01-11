@@ -21,7 +21,7 @@ dotenv.config();
 
 // response.then((result) => console.log(result.output_text));
 const app=express();
-app.use(cors());
+app.use(cors({origin:"http://localhost:5173",credentials:true}))
 app.use(bodyParser.json());
 app.use(cookieParser());
 

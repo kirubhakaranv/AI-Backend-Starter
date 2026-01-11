@@ -1,14 +1,28 @@
 import {motion} from 'framer-motion'
 import Input from '../components/Input.jsx';
-import {User,Mail,Lock} from 'lucide-react'
+import {User,Mail,Lock,Loader} from 'lucide-react'
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import LoginPage from './LoginPage';
+import LoginPage from './LoginPage.jsx';
 import PasswordStrengthMeter from '../components/PasswordStrengthMeter.jsx'
+import { useAuthStore } from '../store/authStore.js';
+import { useNavigate } from "react-router-dom";
+
 const SignUpPage=()=>{ 
     const [name,setName]=useState('');
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
+    const {signup,error,isLoading}=useAuthStore();
+    const navigate = useNavigate();
+    const handlesignup=async (e)=>{
+        e.preventDefault();
+        try{
+                await signup(email,password,name);
+                navigate("/verify-email");
+        }catch(error){
+                console.log(error);
+        }
+    }
     return( 
          <motion.div
     initial={{opacity:0,y:20}}
@@ -20,7 +34,7 @@ const SignUpPage=()=>{
         <h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text'>
                 Create Account
             </h2>
-            <form >
+            <form onSubmit={handlesignup} >
                  <Input
                  icon={User}
                  type='text'
@@ -42,6 +56,7 @@ const SignUpPage=()=>{
                  value={password}
                  onChange= {(e)=>setPassword(e.target.value)}
                  />
+                 {error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
                  <PasswordStrengthMeter password={password}/>
                  <motion.button
 						className='mt-5 w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white 
@@ -50,8 +65,8 @@ const SignUpPage=()=>{
 						 focus:ring-offset-gray-900 transition duration-200'
 						whileHover={{ scale: 1.02 }}
 						whileTap={{ scale: 0.98 }}
-						type='submit'
-					>Sign Up</motion.button>
+						type='submit'>
+                            {isLoading? <Loader className='flex items-center justify-center animate-spin mx-auto' size={24}/>:"Sign Up"}</motion.button>
             </form>
         </div>
            <div className='px-8 py-4 bg-gray-900 bg-opacity-50 flex justify-center'>
